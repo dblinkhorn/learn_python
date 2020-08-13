@@ -79,7 +79,7 @@ def spin_wheel():
                         vowel_prompt = False
                         check_input = False
 
-            # if user choice neither 1 or 2 then raise error message
+            # if user choice neither 1 or 2 then show error message
             elif spin_choice not in (1, 2):
                 print("\n    Invalid selection. Enter '1' or '2'.\n")
                 continue
@@ -139,7 +139,8 @@ player_money = 0
 
 # dictionary to store each slice of the wheel
 wheel = {
-    "Bankrupt": "BANKRUPT",    # a function that removes all the player's money
+    # activates a function that removes all the player's money
+    "Bankrupt": "BANKRUPT",
     "$100": 100,
     "$200": 200,
     "$300": 300,
