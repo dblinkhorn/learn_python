@@ -20,33 +20,8 @@ def bankrupt():
     return player_money
 
 
-# function that checks to see if the player already used a letter
-def letter_check(letter):
-    global consonants
-    global vowels
-    while True:
-        if letter in list("ABCDEFGHIJKLMNOPQRSTUVWYX"):
-            if letter in consonants:
-                try:
-                    consonants.remove(letter)
-                    return letter
-                    break
-                except ValueError:
-                    pass
-            elif letter in vowels:
-                try:
-                    vowels.remove(letter)
-                    return letter
-                    break
-                except ValueError:
-                    pass
-            else:
-                print("\n    You have already used that letter. Please try again.\n")
-                break
-        else:
-            print("\n    Invalid selection. Please try again.\n")
-            break
-
+global used_letters
+used_letters = []
 
 
 # function to spin the wheel
@@ -58,7 +33,8 @@ def spin_wheel():
     spin = random.choice(list(wheel.values()))
     # Below, "\033[1m" starts bold text in the terminal, "\033[0m" finishes it
     print(f"    The wheel landed on: \033[1m${spin}\033[0m.\n")
-    while True:
+    valid_choice = True
+    while valid_choice:
         spin_choice = int(input("Would you like to:\n"
                        "1. Guess a consonant\n"
                        "2. Buy a vowel (Cost: $500)\n"
@@ -66,13 +42,27 @@ def spin_wheel():
 
         while spin_choice not in (1, 2):                            # FIX THIS, needs to re-execute spin choice prompt
             print("    Invalid selection. Please try again.\n")
-            break
+            continue
         if spin_choice == 1:
-            guess = input("Enter a consonant to guess: ")
+            consonant_prompt = True
+            while consonant_prompt:
+                guess = input("Enter a consonant to guess: ").upper()
+                if guess not in consonants:
+                    print("    You must enter a consonant. Please try again")
+                    continue
+                elif guess in used_letters:
+                    print("    You have already used that letter. Please try again.")
+                    continue
+                elif guess not in used_letters:
+                    used_letters.append(guess)
+                    print(used_letters)
+                    consonant_prompt = False
         elif spin_choice == 2:
-            guess = input("Enter a vowel to buy: ")
+            guess = input("Enter a vowel to buy: ").upper()
 
-        valid_guess = letter_check(guess.upper())
+        valid_guess = guess
+
+        print(valid_guess)
         if valid_guess is None:
             continue
         else:
