@@ -15,9 +15,9 @@ import sys
 
 # function that resets player_money to zero
 def bankrupt():
+    print("\nSorry, you have gone bankrupt! You have now have $0.\n")
     global player_money
     player_money = 0
-    return player_money
 
 
 global used_letters
@@ -31,42 +31,49 @@ def spin_wheel():
 
     # variable spin set to a random value from wheel dictionary
     spin = random.choice(list(wheel.values()))
+
     # Below, "\033[1m" starts bold text in the terminal, "\033[0m" finishes it
     print(f"    The wheel landed on: \033[1m${spin}\033[0m.\n")
-    valid_choice = True
-    while valid_choice:
-        spin_choice = int(input("Would you like to:\n"
-                       "1. Guess a consonant\n"
-                       "2. Buy a vowel (Cost: $500)\n"
-                       "\nSelect an action above: "))
 
-        while spin_choice not in (1, 2):                            # FIX THIS, needs to re-execute spin choice prompt
-            print("    Invalid selection. Please try again.\n")
+    check_input = True
+    while check_input:
+
+        if spin == bankrupt:
+            bankrupt()
+            check_input = False
+
+        try:
+            spin_choice = int(input("Would you like to:\n"
+                           "1. Guess a consonant\n"
+                           "2. Buy a vowel (Cost: $500)\n"
+                           "\nSelect an action above: "))
+
+            if spin_choice == 1:
+                consonant_prompt = True
+                while consonant_prompt:
+                    guess = input("Enter a consonant to guess: ").upper()
+                    if guess not in consonants:
+                        print("\n    You must enter a consonant. Please try again.\n")
+                        continue
+                    elif guess in used_letters:
+                        print("\n    You have already used that letter. Please try again.\n")
+                        continue
+                    elif guess not in used_letters:
+                        used_letters.append(guess)
+                        consonant_prompt = False
+                        check_input = False
+            if spin_choice == 2:
+                    guess = input("Enter a vowel to buy: ").upper()
+
+            elif spin_choice not in (1, 2):
+                print("\n    Invalid Selection. Enter '1' or '2'.\n")
+                continue
+
+        except ValueError or TypeError:
+            print("\n    Invalid Selection. Enter a '1' or '2'.\n")
             continue
-        if spin_choice == 1:
-            consonant_prompt = True
-            while consonant_prompt:
-                guess = input("Enter a consonant to guess: ").upper()
-                if guess not in consonants:
-                    print("    You must enter a consonant. Please try again")
-                    continue
-                elif guess in used_letters:
-                    print("    You have already used that letter. Please try again.")
-                    continue
-                elif guess not in used_letters:
-                    used_letters.append(guess)
-                    print(used_letters)
-                    consonant_prompt = False
-        elif spin_choice == 2:
-            guess = input("Enter a vowel to buy: ").upper()
 
-        valid_guess = guess
-
-        print(valid_guess)
-        if valid_guess is None:
-            continue
-        else:
-            break
+    valid_guess = guess
 
     number_correct = secret_phrase.count(valid_guess)
     if number_correct > 1:
@@ -83,7 +90,7 @@ def spin_wheel():
 
 
 # function to display main menu of game
-def play_game():
+def main_menu():
     while True:
         try:
             menu_choice = int(input("\nWould you like to:\n"
@@ -96,16 +103,17 @@ def play_game():
                 print("\n    Thank you for playing! Goodbye.")
                 sys.exit()
             else:
-                print("\n    Invalid selection. Please try again.")
+                print("\n    Invalid selection. Enter '1' or '2'.")
                 continue
         except ValueError:
-            print("\n    Invalid selection. Please try again.")
+            print("\n    Invalid selection. Enter '1' or '2'.")
             continue
+
 
 player_money = 0
 
 wheel = {
-    "Bankrupt": bankrupt(),    # a function that removes all the player's money
+    "Bankrupt": bankrupt,    # a function that removes all the player's money
     "$100": 100,
     "$200": 200,
     "$300": 300,
@@ -128,7 +136,7 @@ secret_phrase = "TESTING"
 
 print("\nWelcome to the WHEEL OF FORTUNE!\n")
 
-play_game()
+main_menu()
 spin_wheel()
 
 print(consonants)
