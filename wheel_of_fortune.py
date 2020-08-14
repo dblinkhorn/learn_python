@@ -15,7 +15,7 @@ puzzles = {
     7: "TAKE ME TO YOUR LEADER",
     8: "MAN ON THE MOON",
     9: "ONLY TIME WILL TELL",
-    10: "I LOVE PYTHON"
+    10: "HOLY HAND GRENADE"
 }
 
 
