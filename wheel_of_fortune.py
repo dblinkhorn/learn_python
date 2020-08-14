@@ -25,8 +25,9 @@ def reveal_letters(valid_guess):
             # then change that blank to that letter, revealing the successful guess on the board
             letter_board[blank] = valid_guess
     # prints out the game board and reveals guessed letters
-    print("    Puzzle to solve:\n")
-    print("    ", end="")
+    print("        Current Letters\n"
+          "        ---------------")
+    print("        ", end="")
     print(*letter_board)
 
 
