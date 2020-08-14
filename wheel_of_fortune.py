@@ -245,8 +245,8 @@ def main_menu():
                             print(*letter_board)
                             main_menu()
                         if play_again == 'N':
-                            quit = False
-                            while not quit:
+                            check_quit = False
+                            while not check_quit:
                                 confirm_quit = input("Are you sure you want to quit? Enter (Y)es or (N)o: ").upper()
                                 while confirm_quit not in ('Y', 'N'):
                                     print("\n    Invalid selection. Enter 'Y' or 'N'.\n")
