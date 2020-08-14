@@ -4,6 +4,38 @@ import random
 import time
 import sys
 
+# dictionary to store puzzles for program to choose from
+puzzles = {
+    1: "TODAY IS THE DAY",
+    2: "EVERYONE LOVES PIZZA",
+    3: "HAVE ONE ON ME",
+    4: "HIDE AND SEEK",
+    5: "LET THE FUN BEGIN",
+    6: "DEATH AND TAXES",
+    7: "TAKE ME TO YOUR LEADER",
+    8: "MAN ON THE MOON",
+    9: "ONLY TIME WILL TELL",
+    10: "A ROCK AND A HARD PLACE"
+}
+
+
+# function that selects a random puzzle from the puzzles dictionary
+def select_puzzle(puzzles):
+    global puzzle
+    global letter_board
+    puzzle = random.choice(list(puzzles.values()))
+
+    # list to store blank spaces generated from randomly selection puzzle from puzzles dictionary
+    letter_board = []
+
+    # loop to build number of blanks on letter board from selected puzzle
+    for character in range(len(puzzle)):
+        if puzzle[character] not in " ":
+            letter_board.append("_")
+        if puzzle[character] in " ":
+            letter_board.append(" ")
+    return puzzle
+
 
 # function that resets player winnings to $0
 def bankrupt():
@@ -148,31 +180,91 @@ def spin_wheel():
         # winnings equals spin value times number of guessed letters in phrase
         player_money = player_money + (spin * number_correct)
         # tell user how much they won this round and current total winnings
-        print(f"\n    You won ${spin * number_correct} this round. You now have \033[1m${player_money}\033[0m total.")
+        print(f"\n    You won ${spin * number_correct} this round. You currently have \033[1m${player_money}\033[0m "
+              f"total.")
 
     # print this if guess was a vowel
     elif valid_guess in vowels:
         player_money = player_money - 500
-        print(f"\n    You purchased the vowel '{valid_guess}' for \033[1m$500\033[0m. You now have \033[1m"
+        print(f"\n    You purchased the vowel '{valid_guess}' for \033[1m$500\033[0m. You currently have \033[1m"
               f"${player_money}\033[0m total.")
+
+
+# function to confirm user wants to quit program
+def menu_quit():
+    invalid_input = True
+    while invalid_input:
+        confirmed_choice = input("\nAre you sure you want to quit? Enter (Y)es or (N)o: ")
+        while confirmed_choice.upper() not in ('Y', 'N'):
+            print("\nInvalid selection. Enter 'Y' or 'N'.")
+            break
+        if confirmed_choice.upper() == "Y":
+            print("\nThank you for playing. Goodbye!")
+            sys.exit()
+        elif confirmed_choice.upper() == "N":
+            invalid_input = False
 
 
 # function to display main menu of game
 def main_menu():
     # loop to check main menu input
     while True:
+        # sets variables player_money and puzzle to be preserved outside of function scope
+        global used_letters
+        global player_money
+        global puzzle
         try:
             # main menu
             menu_choice = int(input("\nChoose an action:\n"
                                     "1. Spin the wheel\n"
-                                    "2. Exit the game\n"
+                                    "2. Solve the puzzle\n"
+                                    "3. Exit the game\n"
                                     "\nEnter choice: "))
             if menu_choice == 1:
                 spin_wheel()
             # exits the game
             elif menu_choice == 2:
-                print("\n    Thank you for playing! Goodbye.")
-                sys.exit()
+                puzzle_guess = input("Enter your guess (include spaces, not case-sensitive): ").upper()
+                if puzzle_guess == puzzle:
+                    print("\n    Congratulations, you solved the puzzle!")
+                    player_money += 1000
+                    print(f"\n    You won \033[1m$1000\033[0m this round for solving the puzzle and earned a "
+                          f"total of \033[1m${player_money}\033[0m this game.")
+                    player_money = 0
+                    used_letters = []
+                    confirm_replay = True
+                    while confirm_replay:
+                        # variable to store if user wants to play another game or quit
+                        play_again = input("\nWould you like to play again? Enter (Y)es or (N)o: ").upper()
+                        while play_again not in ('Y', 'N'):
+                            print("\n    Invalid selection. Enter 'Y' or 'N'.")
+                            break
+                        if play_again == 'Y':
+                            puzzle = select_puzzle(puzzles)
+                            print("\nHere is the next puzzle...\n")
+                            print(*letter_board)
+                            main_menu()
+                        if play_again == 'N':
+                            quit = False
+                            while not quit:
+                                confirm_quit = input("Are you sure you want to quit? Enter (Y)es or (N)o: ").upper()
+                                while confirm_quit not in ('Y', 'N'):
+                                    print("\n    Invalid selection. Enter 'Y' or 'N'.\n")
+                                    break
+                                if confirm_quit == 'Y':
+                                    print("\n    Thank you for playing. Goodbye!")
+                                    sys.exit()
+                                elif confirm_quit == 'N':
+                                    puzzle = select_puzzle(puzzles)
+                                    print("\nHere is the next puzzle...\n")
+                                    print(*letter_board)
+                                    main_menu()
+                elif puzzle_guess != puzzle:
+                    print("\n    Sorry, that is not the correct answer.")
+                    continue
+            elif menu_choice == 3:
+                menu_quit()
+
             else:
                 print("\n    Invalid selection. Enter '1' or '2'.")
                 continue
@@ -181,17 +273,8 @@ def main_menu():
             continue
 
 
-# current secret phrase
-puzzle = "TESTING ONE TWO THREE"
-
-letter_board = []
-
-# loop to build number of blanks on letter board from puzzle
-for character in range(len(puzzle)):
-    if puzzle[character] not in " ":
-        letter_board.append("_")
-    if puzzle[character] in " ":
-        letter_board.append(" ")
+# calls function to select random puzzle from the puzzles dictionary
+select_puzzle(puzzles)
 
 # variable to store current player winnings
 player_money = 0
@@ -229,7 +312,7 @@ print("    RULES\n"
       "    4. You may attempt to solve the puzzle at any time. ($1000 bonus if successful)\n"
       "\n    \033[1mGood luck!\033[0m")
 
-
+# prints blank puzzle for user
 print("\nHere is the puzzle...\n")
 print(*letter_board)
 
