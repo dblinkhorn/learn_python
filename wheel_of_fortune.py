@@ -7,15 +7,15 @@ import sys
 # dictionary to store puzzles for select_puzzle() to choose from
 puzzles = {
     1: "TODAY IS THE DAY",
-    2: "EVERYONE LOVES PIZZA",
+    2: "WITHOUT FURTHER ADO",
     3: "HAVE ONE ON ME",
     4: "HIDE AND SEEK",
-    5: "LET THE FUN BEGIN",
+    5: "LET THE GAMES BEGIN",
     6: "DEATH AND TAXES",
     7: "TAKE ME TO YOUR LEADER",
     8: "MAN ON THE MOON",
     9: "ONLY TIME WILL TELL",
-    10: "HAPPY BIRTHDAY TO YOU"
+    10: "I LOVE PYTHON"
 }
 
 
