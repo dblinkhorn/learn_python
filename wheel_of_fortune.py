@@ -11,8 +11,8 @@ def bankrupt():
     global player_money
     player_money = 0
 
+
 # variable to keep track of already-guessed letters
-global used_letters
 used_letters = []
 
 
@@ -28,6 +28,7 @@ def reveal_letters(valid_guess):
     print("    Secret Phrase:\n")
     print("    ", end="")
     print(*board)
+
 
 # dictionary to allow conversion of number_correct (an integer) to a word rather than a numeral
 int_to_str = {
@@ -64,8 +65,9 @@ def spin_wheel():
         # Below, "\033[1m" starts bold text in the terminal, "\033[0m" finishes it
     print(f"    The wheel landed on: \033[1m${spin}\033[0m.\n")
 
-    # player money variable to store total player winnings
+    # set player_money and used_letters to be preserved outside function scope
     global player_money
+    global used_letters
 
     # guess consonant / buy vowel menu loop
     check_input = True
@@ -73,9 +75,9 @@ def spin_wheel():
         try:
             # spin menu
             spin_choice = int(input("Choose an action:\n"
-                           "1. Guess a consonant\n"
-                           "2. Buy a vowel (Cost: $500)\n"
-                           "\nEnter choice: "))
+                                    "1. Guess a consonant\n"
+                                    "2. Buy a vowel (Cost: $500)\n"
+                                    "\nEnter choice: "))
 
             if spin_choice == 1:
                 # loop to check consonant input
@@ -96,7 +98,7 @@ def spin_wheel():
             if spin_choice == 2:
                 if player_money < 500:
                     print("\n    Sorry, you don't have enough money to purchase a vowel yet. Try guessing a consonant "
-                                                                                                          "instead.\n")
+                          "instead.\n")
                     continue
                 # loop to check vowel input
                 vowel_prompt = True
@@ -105,7 +107,7 @@ def spin_wheel():
                     if guess not in vowels:
                         print("\n    You must enter a vowel. Please try again.\n")
                         continue
-                    #checks to see if vowel has already been used
+                    # checks to see if vowel has already been used
                     elif guess in used_letters:
                         print("\n    You have already used that letter. Please try again.\n")
                         continue
@@ -132,7 +134,7 @@ def spin_wheel():
     # if statements to reveal success of user letter
     if number_correct > 1:
         print(f"\n    Congratulations! There are {str(int_to_str[number_correct])} {valid_guess.upper()}'s" + "in the "
-                                                                                                           "phrase.\n")
+              "phrase.\n")
     elif number_correct == 0:
         print(f"\n    Sorry, there are no {valid_guess.upper()}'s in the phrase.\n")
     else:
@@ -161,9 +163,9 @@ def main_menu():
         try:
             # main menu
             menu_choice = int(input("\nChoose an action:\n"
-                               "1. Spin the wheel\n"
-                               "2. Exit the game\n"
-                               "\nEnter choice: "))
+                                    "1. Spin the wheel\n"
+                                    "2. Exit the game\n"
+                                    "\nEnter choice: "))
             if menu_choice == 1:
                 spin_wheel()
             # exits the game
