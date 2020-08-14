@@ -15,7 +15,7 @@ puzzles = {
     7: "TAKE ME TO YOUR LEADER",
     8: "MAN ON THE MOON",
     9: "ONLY TIME WILL TELL",
-    10: "A ROCK AND A HARD PLACE"
+    10: "HAPPY BIRTHDAY TO YOU"
 }
 
 
