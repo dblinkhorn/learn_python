@@ -16,18 +16,18 @@ def bankrupt():
 used_letters = []
 
 
-# function to reveal successfully guessed letters on game board
+# function to reveal successfully guessed letters on letter board
 def reveal_letters(valid_guess):
     # for each hidden letter in the board (number based on characters in secret_phrase)
-    for blank in range(len(board)):
+    for blank in range(len(letter_board)):
         # if that letter is equal to the player's guess
         if secret_phrase[blank] == valid_guess:
             # then change that blank to that letter, revealing the successful guess on the board
-            board[blank] = valid_guess
+            letter_board[blank] = valid_guess
     # prints out the game board and reveals guessed letters
     print("    Secret Phrase:\n")
     print("    ", end="")
-    print(*board)
+    print(*letter_board)
 
 
 # dictionary to allow conversion of number_correct (an integer) to a word rather than a numeral
@@ -183,14 +183,14 @@ def main_menu():
 # current secret phrase
 secret_phrase = "TESTING ONE TWO THREE"
 
-board = []
+letter_board = []
 
-# loop to build number of blanks from secret_phrase
+# loop to build number of blanks on letter board from secret_phrase
 for character in range(len(secret_phrase)):
     if secret_phrase[character] not in " ":
-        board.append("_")
+        letter_board.append("_")
     if secret_phrase[character] in " ":
-        board.append(" ")
+        letter_board.append(" ")
 
 # variable to store current player winnings
 player_money = 0
