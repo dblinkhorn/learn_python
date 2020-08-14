@@ -64,6 +64,9 @@ def spin_wheel():
         # Below, "\033[1m" starts bold text in the terminal, "\033[0m" finishes it
     print(f"    The wheel landed on: \033[1m${spin}\033[0m.\n")
 
+    # player money variable to store total player winnings
+    global player_money
+
     # guess consonant / buy vowel menu loop
     check_input = True
     while check_input:
@@ -91,6 +94,10 @@ def spin_wheel():
                         consonant_prompt = False
                         check_input = False
             if spin_choice == 2:
+                if player_money < 500:
+                    print("\n    Sorry, you don't have enough money to purchase a vowel yet. Try guessing a consonant "
+                                                                                                          "instead.\n")
+                    continue
                 # loop to check vowel input
                 vowel_prompt = True
                 while vowel_prompt:
@@ -116,7 +123,7 @@ def spin_wheel():
             print("\n    Invalid selection. Enter a '1' or '2'.\n")
             continue
 
-    # if user input passes all tests above, change it to valid_input
+    # if user input passes all tests in spin_wheel(), set as valid_guess
     valid_guess = guess
 
     # variable to store count of guessed letters in phrase
@@ -125,21 +132,26 @@ def spin_wheel():
     # if statements to reveal success of user letter
     if number_correct > 1:
         print(f"\n    Congratulations! There are {str(int_to_str[number_correct])} {valid_guess.upper()}'s" + "in the "
-                                                                                                            "phrase.\n")
+                                                                                                           "phrase.\n")
     elif number_correct == 0:
         print(f"\n    Sorry, there are no {valid_guess.upper()}'s in the phrase.\n")
     else:
         print(f"\n    Congratulations! There is {str(int_to_str[number_correct])} {valid_guess.upper()}" + " in the "
                                                                                                            "phrase.\n")
-
     reveal_letters(valid_guess)
 
-    # adjusts player money variable to award winnings
-    global player_money
-    # winnings equals spin value times number of guessed letters in phrase
-    player_money = player_money + (spin * number_correct)
-    # tell user how much they won this round and current total winnings
-    print(f"\n    You won ${spin * number_correct} this round. You now have \033[1m${player_money}\033[0m total.")
+    # print this if guess was a consonant
+    if valid_guess in consonants:
+        # winnings equals spin value times number of guessed letters in phrase
+        player_money = player_money + (spin * number_correct)
+        # tell user how much they won this round and current total winnings
+        print(f"\n    You won ${spin * number_correct} this round. You now have \033[1m${player_money}\033[0m total.")
+
+    # print this if guess was a vowel
+    elif valid_guess in vowels:
+        player_money = player_money - 500
+        print(f"\n    You purchased the vowel '{valid_guess}' for \033[1m$500\033[0m. You now have \033[1m"
+              f"${player_money}\033[0m total.")
 
 
 # function to display main menu of game
