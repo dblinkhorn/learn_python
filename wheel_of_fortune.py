@@ -16,6 +16,34 @@ global used_letters
 used_letters = []
 
 
+# function to reveal successfully guessed letters on game board
+def reveal_letters(valid_guess):
+    # for each hidden letter in the board (number based on characters in secret_phrase)
+    for blank in range(len(board)):
+        # if that letter is equal to the player's guess
+        if secret_phrase[blank] == valid_guess:
+            # then change that blank to that letter, revealing the successful guess on the board
+            board[blank] = valid_guess
+    # prints out the game board and reveals guessed letters
+    print("    Secret Phrase:\n")
+    print("    ", end="")
+    print(*board)
+
+# dictionary to allow conversion of number_correct (an integer) to a word rather than a numeral
+int_to_str = {
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+    10: "ten"
+}
+
+
 # function to spin the wheel
 def spin_wheel():
     print("\nSpinning...\n")
@@ -41,10 +69,10 @@ def spin_wheel():
     while check_input:
         try:
             # spin menu
-            spin_choice = int(input("Would you like to:\n"
+            spin_choice = int(input("Choose an action:\n"
                            "1. Guess a consonant\n"
                            "2. Buy a vowel (Cost: $500)\n"
-                           "\nEnter '1' or '2': "))
+                           "\nEnter choice: "))
 
             if spin_choice == 1:
                 # loop to check consonant input
@@ -96,12 +124,15 @@ def spin_wheel():
 
     # if statements to reveal success of user letter
     if number_correct > 1:
-        print(f"\n    Congratulations! There are \033[1m{number_correct}\033[0m {valid_guess.upper()}'s" + " in the "
-                                                                                                       "phrase.")
+        print(f"\n    Congratulations! There are {str(int_to_str[number_correct])} {valid_guess.upper()}'s" + "in the "
+                                                                                                            "phrase.\n")
     elif number_correct == 0:
-        print(f"\n    Sorry, there are no {valid_guess.upper()}'s in the phrase.")
+        print(f"\n    Sorry, there are no {valid_guess.upper()}'s in the phrase.\n")
     else:
-        print(f"\n    Congratulations! There is \033[1m{number_correct}\033[0m {valid_guess.upper()}" + " in the phrase.")
+        print(f"\n    Congratulations! There is {str(int_to_str[number_correct])} {valid_guess.upper()}" + " in the "
+                                                                                                           "phrase.\n")
+
+    reveal_letters(valid_guess)
 
     # adjusts player money variable to award winnings
     global player_money
@@ -117,10 +148,10 @@ def main_menu():
     while True:
         try:
             # main menu
-            menu_choice = int(input("\nWould you like to:\n"
+            menu_choice = int(input("\nChoose an action:\n"
                                "1. Spin the wheel\n"
                                "2. Exit the game\n"
-                               "\nEnter '1 or '2': "))
+                               "\nEnter choice: "))
             if menu_choice == 1:
                 spin_wheel()
             # exits the game
@@ -133,6 +164,19 @@ def main_menu():
         except ValueError:
             print("\n    Invalid selection. Enter '1' or '2'.")
             continue
+
+
+# current secret phrase
+secret_phrase = "TESTING ONE TWO THREE"
+
+board = []
+
+# loop to build number of blanks from secret_phrase
+for character in range(len(secret_phrase)):
+    if secret_phrase[character] not in " ":
+        board.append("_")
+    if secret_phrase[character] in " ":
+        board.append(" ")
 
 # variable to store current player winnings
 player_money = 0
@@ -158,9 +202,6 @@ wheel = {
 # each list used to validate user input in spin_wheel()
 consonants = list("BCDFGHJKLMNPQRSTVWXYZ")
 vowels = list("AEIOU")
-
-# current secret phrase
-secret_phrase = "TESTING"
 
 # welcome message/program title
 print("\nWelcome to the WHEEL OF FORTUNE!\n")
