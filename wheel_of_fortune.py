@@ -39,7 +39,7 @@ def select_puzzle(puzzles):
 
 # function that resets player winnings to $0
 def bankrupt():
-    print("\n    You have now have \033[1m$0\033[0m. Better luck next spin!")
+    print("\n    You now have \033[1m$0\033[0m. Better luck next spin!")
     global player_money
     player_money = 0
 
