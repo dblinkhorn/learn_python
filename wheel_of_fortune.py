@@ -18,14 +18,14 @@ used_letters = []
 
 # function to reveal successfully guessed letters on letter board
 def reveal_letters(valid_guess):
-    # for each hidden letter in the board (number based on characters in secret_phrase)
+    # for each hidden letter in the board (number based on characters in puzzle)
     for blank in range(len(letter_board)):
         # if that letter is equal to the player's guess
-        if secret_phrase[blank] == valid_guess:
+        if puzzle[blank] == valid_guess:
             # then change that blank to that letter, revealing the successful guess on the board
             letter_board[blank] = valid_guess
     # prints out the game board and reveals guessed letters
-    print("    Secret Phrase:\n")
+    print("    Puzzle to solve:\n")
     print("    ", end="")
     print(*letter_board)
 
@@ -76,7 +76,7 @@ def spin_wheel():
             # spin menu
             spin_choice = int(input("Choose an action:\n"
                                     "1. Guess a consonant\n"
-                                    "2. Buy a vowel (Cost: $500)\n"
+                                    "2. Buy a vowel (Costs $500)\n"
                                     "\nEnter choice: "))
 
             if spin_choice == 1:
@@ -129,17 +129,17 @@ def spin_wheel():
     valid_guess = guess
 
     # variable to store count of guessed letters in phrase
-    number_correct = secret_phrase.count(valid_guess)
+    number_correct = puzzle.count(valid_guess)
 
     # if statements to reveal success of user letter
     if number_correct > 1:
-        print(f"\n    Congratulations! There are {str(int_to_str[number_correct])} {valid_guess.upper()}'s" + "in the "
-              "phrase.\n")
+        print(f"\n    Congratulations! There are {str(int_to_str[number_correct])} {valid_guess.upper()}'s" + " in the "
+              "puzzle.\n")
     elif number_correct == 0:
-        print(f"\n    Sorry, there are no {valid_guess.upper()}'s in the phrase.\n")
+        print(f"\n    Sorry, there are no {valid_guess.upper()}'s in the puzzle.\n")
     else:
         print(f"\n    Congratulations! There is {str(int_to_str[number_correct])} {valid_guess.upper()}" + " in the "
-                                                                                                           "phrase.\n")
+              "puzzle.\n")
     reveal_letters(valid_guess)
 
     # print this if guess was a consonant
@@ -181,15 +181,15 @@ def main_menu():
 
 
 # current secret phrase
-secret_phrase = "TESTING ONE TWO THREE"
+puzzle = "TESTING ONE TWO THREE"
 
 letter_board = []
 
-# loop to build number of blanks on letter board from secret_phrase
-for character in range(len(secret_phrase)):
-    if secret_phrase[character] not in " ":
+# loop to build number of blanks on letter board from puzzle
+for character in range(len(puzzle)):
+    if puzzle[character] not in " ":
         letter_board.append("_")
-    if secret_phrase[character] in " ":
+    if puzzle[character] in " ":
         letter_board.append(" ")
 
 # variable to store current player winnings
@@ -219,6 +219,18 @@ vowels = list("AEIOU")
 
 # welcome message/program title
 print("\nWelcome to the WHEEL OF FORTUNE!\n")
+# explain game rules
+print("    RULES\n"
+      "    -----\n"
+      "    1. You will be awarded the wheel's spin value for each correctly guessed consonant in the puzzle.\n"
+      "    2. You may buy a vowel for $500.\n"
+      "    3. For each spin of the wheel there is a 1/12 chance of going bankrupt. (Lose all winnings)\n"
+      "    4. You may attempt to solve the puzzle at any time. ($1000 bonus if successful)\n"
+      "\n    \033[1mGood luck!\033[0m")
+
+
+print("\nHere is the puzzle...\n")
+print(*letter_board)
 
 # begins the game by executing the main menu
 main_menu()
