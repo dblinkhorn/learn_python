@@ -180,7 +180,8 @@ def spin_wheel():
         # winnings equals spin value times number of guessed letters in phrase
         player_money = player_money + (spin * number_correct)
         # tell user how much they won this round and current total winnings
-        print(f"\n    You won ${spin * number_correct} this round. You currently have \033[1m${player_money}\033[0m "
+        print(f"\n    You won \033[1m${spin * number_correct}\033[0m this round. You currently have \033[1m"
+              f"${player_money}\033[0m "
               f"total.")
 
     # print this if guess was a vowel
@@ -196,10 +197,10 @@ def menu_quit():
     while invalid_input:
         confirmed_choice = input("\nAre you sure you want to quit? Enter (Y)es or (N)o: ")
         while confirmed_choice.upper() not in ('Y', 'N'):
-            print("\nInvalid selection. Enter 'Y' or 'N'.")
+            print("\n    Invalid selection. Enter 'Y' or 'N'.")
             break
         if confirmed_choice.upper() == "Y":
-            print("\nThank you for playing. Goodbye!")
+            print("\n    Thank you for playing. Goodbye!")
             sys.exit()
         elif confirmed_choice.upper() == "N":
             invalid_input = False
