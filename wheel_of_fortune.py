@@ -18,6 +18,48 @@ puzzles = {
     10: "HOLY HAND GRENADE"
 }
 
+# dictionary to store each slice of the wheel
+wheel = {
+    # activates a function that resets player's winnings to $0
+    "Bankrupt": "BANKRUPT",
+    "$100": 100,
+    "$200": 200,
+    "$300": 300,
+    "$400": 400,
+    "$500": 500,
+    "$600": 600,
+    "$700": 700,
+    "$800": 800,
+    "$900": 900,
+    "$1000": 1000,
+    "$2000": 2000
+}
+
+# dictionary to allow conversion of number_correct (an integer) to a word rather than a numeral
+int_to_str = {
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+    10: "ten"
+}
+
+# variable to store current player winnings
+player_money = 0
+
+# variable to keep track of already-guessed letters
+used_letters = []
+
+# variables set to contain all possible letters
+# each list is used to validate the user input in spin_wheel()
+consonants = list("BCDFGHJKLMNPQRSTVWXYZ")
+vowels = list("AEIOU")
+
 
 # function that selects a random puzzle from the puzzles dictionary
 def select_puzzle(puzzles):
@@ -44,10 +86,6 @@ def bankrupt():
     player_money = 0
 
 
-# variable to keep track of already-guessed letters
-used_letters = []
-
-
 # function to reveal successfully guessed letters on letter board
 # only accepts already validated guess (letter is in the puzzle)
 def reveal_letters(valid_guess):
@@ -62,21 +100,6 @@ def reveal_letters(valid_guess):
           "        ---------------")
     print("        ", end="")
     print(*letter_board)
-
-
-# dictionary to allow conversion of number_correct (an integer) to a word rather than a numeral
-int_to_str = {
-    1: "one",
-    2: "two",
-    3: "three",
-    4: "four",
-    5: "five",
-    6: "six",
-    7: "seven",
-    8: "eight",
-    9: "nine",
-    10: "ten"
-}
 
 
 # function that controls all of the spin wheel logic
@@ -299,31 +322,6 @@ def main_menu():
 
 # calls function to select a random puzzle from the puzzles dictionary
 select_puzzle(puzzles)
-
-# variable to store current player winnings
-player_money = 0
-
-# dictionary to store each slice of the wheel
-wheel = {
-    # activates a function that resets player's winnings to $0
-    "Bankrupt": "BANKRUPT",
-    "$100": 100,
-    "$200": 200,
-    "$300": 300,
-    "$400": 400,
-    "$500": 500,
-    "$600": 600,
-    "$700": 700,
-    "$800": 800,
-    "$900": 900,
-    "$1000": 1000,
-    "$2000": 2000
-}
-
-# variables set to contain all possible letters
-# each list is used to validate the user input in spin_wheel()
-consonants = list("BCDFGHJKLMNPQRSTVWXYZ")
-vowels = list("AEIOU")
 
 # welcome message/program title
 print("\nWelcome to the WHEEL OF FORTUNE!\n")
