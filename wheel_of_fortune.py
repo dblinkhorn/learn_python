@@ -112,7 +112,7 @@ def spin_wheel():
     # variable spin set to a random value from wheel dictionary (random wheel slice)
     spin = random.choice(list(wheel.values()))
 
-    # if wheel lands on bankrupt, player losses all their money
+    # if wheel lands on bankrupt, player losses all their winnings
     if spin == "BANKRUPT":
         print("    Sorry, the wheel landed on: \033[1mBANKRUPT!\033[0m")
         bankrupt()
@@ -238,7 +238,7 @@ def main_menu():
     # loop to check the main menu inputs
     main_loop = True
     while main_loop:
-        # sets variables player_money and puzzle to be preserved outside of function scope
+        # sets variables used_letters, player_money, and puzzle to be preserved outside of function scope
         global used_letters
         global player_money
         global puzzle
@@ -331,7 +331,8 @@ print("    RULES\n"
       "    -----\n"
       "    1. You will be awarded the wheel's spin value for each correctly guessed consonant in the puzzle.\n"
       "    2. You may buy a vowel for $500.\n"
-      "    3. For each spin of the wheel there is a 1/12 chance of going bankrupt. (Lose all winnings)\n"
+      "    3. For each spin of the wheel there is a one in twelve (8.33%) chance of going bankrupt. (Lose all "
+      "winnings)\n"
       "    4. You may attempt to solve the puzzle at any time. ($1000 bonus if successful)\n"
       "\n    \033[1mGood luck!\033[0m")
 
